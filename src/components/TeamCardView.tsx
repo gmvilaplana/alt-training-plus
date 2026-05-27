@@ -38,37 +38,46 @@ export function TeamCardView({ card }: Props) {
         boxShadow: '0 1px 0 rgba(255,255,255,0.04) inset, 0 20px 40px -20px rgba(0,0,0,0.6)',
       }}
     >
+      {/* Optional per-card hover background (e.g. Kevin's Mars space scene) */}
+      {card.themeBg ? (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{ background: card.themeBg }}
+        />
+      ) : null}
+
       {/* Accent corner glow */}
       <span
         aria-hidden
-        className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-70"
+        className="pointer-events-none absolute -right-12 -top-12 z-0 h-32 w-32 rounded-full opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-70"
         style={{ background: t.glow.includes('229') ? '#00e5cc' : t.ink }}
       />
 
       {/* Eyebrow with bright teal accent (signature playbook detail) */}
-      <p className="font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[--color-accent]">
+      <p className="relative z-10 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[--color-accent]">
         Team · {card.theme}
       </p>
 
       {card.emoji ? (
-        <div className="text-3xl" aria-hidden>
+        <div className="relative z-10 text-3xl" aria-hidden>
           {card.emoji}
         </div>
       ) : null}
 
-      <header className="flex flex-col gap-1.5">
+      <header className="relative z-10 flex flex-col gap-1.5">
         <h2 className="text-2xl font-semibold leading-tight tracking-tight">{card.name}</h2>
         <p className="text-xs font-medium uppercase tracking-[0.12em] opacity-70">
           {card.role}
         </p>
       </header>
 
-      <p className="text-base leading-relaxed opacity-90">{card.skill}</p>
+      <p className="relative z-10 text-base leading-relaxed opacity-90">{card.skill}</p>
 
       {/* Bottom accent bar */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-transparent via-[--color-accent] to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-90"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-gradient-to-r from-transparent via-[--color-accent] to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-90"
       />
     </article>
   )
