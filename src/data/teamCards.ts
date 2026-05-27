@@ -1,3 +1,5 @@
+export type CardTheme = 'teal' | 'navy' | 'amber' | 'peach'
+
 export type TeamCard = {
   /** Display name shown on the card */
   name: string
@@ -5,11 +7,11 @@ export type TeamCard = {
   role: string
   /** A short skill, phrase, or fun fact */
   skill: string
-  /** Accent color used for the card border/highlight (any valid CSS color) */
-  accent: string
-  /** Optional emoji shown next to the name */
+  /** Color theme inspired by the TELUS Design Playbook */
+  theme: CardTheme
+  /** Optional emoji shown above the name */
   emoji?: string
-  /** Optional CSS background revealed on hover (any valid `background` value) */
+  /** Optional CSS `background` value revealed on hover (gradients, patterns, etc.) */
   themeBg?: string
 }
 
@@ -31,14 +33,14 @@ export const teamCards: TeamCard[] = [
     name: 'Juan Vilaplana',
     role: 'Workshop Facilitator',
     skill: 'Turning git fear into git muscle memory.',
-    accent: '#2dd4bf',
+    theme: 'teal',
     emoji: '🧭',
   },
   {
     name: 'Kevin Coudures',
     role: 'Explorador Marciano',
     skill: 'Plantando banderas en cada PR — próxima parada: Marte.',
-    accent: '#c1440e',
+    theme: 'peach',
     emoji: '🪐',
     themeBg: marsSpaceBg,
   },
@@ -46,7 +48,7 @@ export const teamCards: TeamCard[] = [
     name: 'Your Name Here',
     role: 'Your Role',
     skill: 'Add your own card by opening a PR — see the README.',
-    accent: '#a78bfa',
+    theme: 'navy',
     emoji: '✨',
   },
 ]
