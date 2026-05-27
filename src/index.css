@@ -1,16 +1,33 @@
 @import "tailwindcss";
 
+/* Palette adapted from the TELUS Design Playbook (dark mode). */
 @theme {
-  --color-canvas: #07221f;
-  --color-surface: #0d2e2a;
+  --color-canvas: #071412;
+  --color-surface: #0d2522;
+  --color-surface-elev: #142823;
   --color-edge: #1c4a44;
-  --color-accent: #2dd4bf;
-  --color-accent-soft: #134e4a;
-  --color-ink: #e6fffb;
-  --color-ink-muted: #8ab5af;
+  --color-edge-soft: #0f3531;
 
-  --font-sans: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, "JetBrains Mono", Menlo, monospace;
+  --color-accent: #00e5cc;
+  --color-accent-bright: #00ffe0;
+  --color-accent-dim: #0e7e6f;
+
+  --color-ink: #fdfdfd;
+  --color-ink-muted: #9ca3af;
+  --color-ink-soft: #dadddf;
+
+  /* Card themes */
+  --color-theme-teal: #0d423c;
+  --color-theme-teal-ink: #b1e8e1;
+  --color-theme-navy: #263c65;
+  --color-theme-navy-ink: #cfd9ef;
+  --color-theme-amber: #443103;
+  --color-theme-amber-ink: #f5d795;
+  --color-theme-peach: #ef8665;
+  --color-theme-peach-ink: #2a0f06;
+
+  --font-sans: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
 }
 
 html,
@@ -20,9 +37,20 @@ body,
 }
 
 body {
-  background: var(--color-canvas);
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(0, 229, 204, 0.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 110%, rgba(38, 60, 101, 0.18), transparent 60%),
+    var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-feature-settings: "ss01", "ss02";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle dotted grid behind sections for the "worked" feel */
+.grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: 0 0;
 }
