@@ -1,32 +1,30 @@
-import type { TeamCard } from '../data/teamCards'
+import { Box, Card, StackView, Typography } from '@telus-uds/components-web'
+import type { CardStyle, TeamCard } from '../data/teamCards'
 
-type Props = {
-  card: TeamCard
-}
+const DARK_STYLES: ReadonlySet<CardStyle> = new Set(['dark', 'darker', 'darkest'])
 
-export function TeamCardView({ card }: Props) {
+export function TeamCardView({ card }: { card: TeamCard }) {
+  const inverse = DARK_STYLES.has(card.style)
   return (
-    <article
-      className="group relative flex flex-col justify-between rounded-2xl border border-edge bg-surface p-6 shadow-lg transition-transform hover:-translate-y-1"
-      style={{ borderTopColor: card.accent, borderTopWidth: 4 }}
-    >
-      <header>
-        <div className="mb-2 text-2xl" aria-hidden>
-          {card.emoji ?? '👤'}
-        </div>
-        <h2 className="text-xl font-semibold text-ink">{card.name}</h2>
-        <p className="text-sm uppercase tracking-wider text-ink-muted">
+    <Card variant={{ style: card.style }}>
+      <StackView space={2}>
+        {card.emoji ? (
+          <Typography block variant={{ size: 'h2', inverse }}>
+            {card.emoji}
+          </Typography>
+        ) : null}
+        <Typography block tag="h2" variant={{ size: 'h3', inverse }}>
+          {card.name}
+        </Typography>
+        <Typography block variant={{ size: 'eyebrow', inverse }}>
           {card.role}
-        </p>
-      </header>
-
-      <p className="mt-4 text-base leading-relaxed text-ink">{card.skill}</p>
-
-      <span
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1 rounded-b-2xl"
-        style={{ background: card.accent }}
-      />
-    </article>
+        </Typography>
+        <Box top={2}>
+          <Typography block variant={{ inverse }}>
+            {card.skill}
+          </Typography>
+        </Box>
+      </StackView>
+    </Card>
   )
 }

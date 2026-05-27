@@ -1,49 +1,43 @@
+import { Box, Divider, StackView, Typography } from '@telus-uds/components-web'
 import { TeamCardView } from './components/TeamCardView'
 import { teamCards } from './data/teamCards'
 
-function App() {
+export default function App() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-12 px-6 py-16">
-      <header className="flex flex-col gap-4">
-        <p className="font-mono text-sm uppercase tracking-[0.3em] text-accent">
-          alt-training-plus
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-ink md:text-5xl">
-          The Team Cards Workshop
-        </h1>
-        <p className="max-w-2xl text-lg text-ink-muted">
-          A hands-on git + PR workshop. Clone this repo, create a branch with
-          Claude Code in VS Code, add your own card below, open a PR, and watch
-          it ship.
-        </p>
-      </header>
+    <Box tag="main" horizontal={{ xs: 3, md: 6 }} vertical={{ xs: 4, md: 8 }}>
+      <StackView space={{ xs: 4, md: 6 }}>
+        <StackView space={2}>
+          <Typography block variant={{ size: 'eyebrow' }}>
+            alt-training-plus
+          </Typography>
+          <Typography block tag="h1" variant={{ size: 'display2' }}>
+            The Team Cards Workshop
+          </Typography>
+          <Typography block variant={{ size: 'large' }}>
+            A hands-on git + PR workshop. Clone this repo, add your own card
+            with Claude Code in VS Code, open a PR, and watch it ship.
+          </Typography>
+        </StackView>
 
-      <section aria-labelledby="gallery-title" className="flex flex-col gap-6">
-        <div className="flex items-end justify-between">
-          <h2 id="gallery-title" className="text-2xl font-semibold text-ink">
+        <Divider />
+
+        <StackView space={3}>
+          <Typography block tag="h2" variant={{ size: 'h2' }}>
             Team Gallery
-          </h2>
-          <p className="text-sm text-ink-muted">
-            {teamCards.length} card{teamCards.length === 1 ? '' : 's'}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {teamCards.map((card) => (
-            <TeamCardView key={card.name} card={card} />
-          ))}
-        </div>
-      </section>
-
-      <footer className="mt-auto border-t border-edge pt-6 text-sm text-ink-muted">
-        Built for the alt-training-plus workshop · Edit{' '}
-        <code className="rounded bg-surface px-1.5 py-0.5 font-mono text-accent">
-          src/data/teamCards.ts
-        </code>{' '}
-        to add yours.
-      </footer>
-    </div>
+          </Typography>
+          <StackView
+            direction={{ xs: 'column', md: 'row' }}
+            space={{ xs: 2, md: 3 }}
+            tokens={{ flexWrap: 'wrap' }}
+          >
+            {teamCards.map((card) => (
+              <Box key={card.name} tokens={{ flexBasis: 320, flexGrow: 1 }}>
+                <TeamCardView card={card} />
+              </Box>
+            ))}
+          </StackView>
+        </StackView>
+      </StackView>
+    </Box>
   )
 }
-
-export default App

@@ -42,12 +42,18 @@ Open the project in VS Code, open Claude Code, and ask it to add your card.
 A prompt that works well:
 
 > Add a new card for me to `src/data/teamCards.ts`. My name is **[NAME]**,
-> my role is **[ROLE]**, and my skill/phrase is **[SKILL]**. Use an
-> accent color of **[HEX]** and the emoji **[EMOJI]**.
+> my role is **[ROLE]**, and my skill/phrase is **[SKILL]**. Use the UDS
+> Card style **[default | light | feature | darkest | …]** and the emoji
+> **[EMOJI]**.
 
 Or edit `src/data/teamCards.ts` directly — append a new entry to the
 `teamCards` array. The `TeamCard` type at the top of the file documents
-every field.
+every field, and the `CardStyle` union lists the valid `style` values.
+
+> 💡 All visuals come from the **TELUS Universal Design System** (Allium
+> theme). You don't pick hex colors — you pick a `style` from the catalog
+> (`default`, `light`, `lighter`, `lightest`, `feature`, `feature2…4`,
+> `dark`, `darker`, `darkest`).
 
 Save, switch to the browser, and confirm your card appears in the gallery.
 
@@ -85,12 +91,12 @@ src/
 │   └── TeamCardView.tsx     # how a card looks
 ├── data/
 │   └── teamCards.ts         # ← the only file you need to edit
-├── index.css                # global styles + Tailwind theme tokens
-└── main.tsx                 # React entry point
+├── index.css                # minimal body reset
+└── main.tsx                 # React entry — wraps app with UDS BaseProvider
 ```
 
 ## Stack
 
 - [Vite](https://vite.dev) (dev server + build)
-- [React 19](https://react.dev) + TypeScript
-- [Tailwind CSS v4](https://tailwindcss.com)
+- [React 18](https://react.dev) + TypeScript
+- [TELUS Universal Design System](https://www.telus.com/universal-design-system) — Allium theme (`@telus-uds/components-web`)
