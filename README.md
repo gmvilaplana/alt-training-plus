@@ -153,25 +153,37 @@ git checkout -b feat/your-name-card
 
 ## 3. Add your card
 
-Open the project in VS Code, open Claude Code, and ask it to add your card.
-A prompt that works well:
+Every participant works on **their own file** — no shared array, no merge
+conflicts. To add your card:
 
-> Add a new card for me to `src/data/teamCards.ts`. My name is **[NAME]**,
-> my role is **[ROLE]**, and my skill/phrase is **[SKILL]**. Use the theme
-> **[teal | navy | amber | peach]** and the emoji **[EMOJI]**.
+1. Copy `src/cards/_template.tsx` to `src/cards/<your-name>.tsx` (e.g.
+   `src/cards/juan.tsx`).
+2. Rename the exported component (e.g. `YourNameCard` → `JuanCard`).
+3. Edit the contents freely — colors, gradients, emojis, GSAP, whatever
+   you want. Just keep everything inside the `<article>` wrapper.
+4. Save → your card auto-appears in the gallery (visit
+   `/gallery/warm-up`).
 
-Or edit `src/data/teamCards.ts` directly — append a new entry to the
-`teamCards` array. The `TeamCard` type at the top of the file documents
-every field.
+A Claude Code prompt that works well:
 
-Save, switch to the browser, and confirm your card appears in the gallery.
+> Create a new Team Card component for me at `src/cards/<my-slug>.tsx`.
+> Use `src/cards/_template.tsx` as the base — copy it, rename the file,
+> and rename the component.
+>
+> My name is **[NAME]**, my role is **[ROLE]**, and my skill/phrase is
+> **[SKILL]**. Use a theme inspired by **[teal | navy | amber | peach |
+> your own gradient]** with the emoji **[EMOJI]**. Feel free to use
+> gradients or animations — keep it inside the `<article>` wrapper.
+
+See `/gallery/warm-up` in the live site for the full prompt template and
+tips.
 
 ## 4. Commit and push
 
 ```bash
 git status                # see what changed
 git diff                  # review the change
-git add src/data/teamCards.ts
+git add src/cards/your-name.tsx
 git commit -m "Add team card for [your name]"
 git push -u origin feat/your-name-card
 ```
@@ -195,17 +207,21 @@ The facilitator merges. Vercel deploys. Your card is live.
 
 ```
 src/
-├── App.tsx                  # router shell (/ → Home, /gallery → Gallery)
+├── App.tsx                              # router with nested /gallery routes
 ├── pages/
-│   ├── Home.tsx             # GM2 ALT Training cover with GSAP entrance
-│   └── Gallery.tsx          # header + team gallery + footer
+│   ├── Home.tsx                         # GM2 ALT Training cover
+│   └── gallery/
+│       ├── GalleryLayout.tsx            # cover + tabs shell
+│       ├── components/                  # Cover, AuthorChip, Tabs, Breadcrumbs
+│       └── tabs/                        # Overview, Setup, YourFirstPR, WarmUpChallenge
 ├── components/
-│   ├── HeroCard.tsx         # paper card with teal shadow used in the cover
-│   └── TeamCardView.tsx     # how a team gallery card looks
-├── data/
-│   └── teamCards.ts         # ← the only file you need to edit
-├── index.css                # global styles + Tailwind theme tokens
-└── main.tsx                 # React entry point
+│   ├── HeroCard.tsx                     # paper card in the landing
+│   └── CardGallery.tsx                  # auto-discovers src/cards/*.tsx
+├── cards/                               # ← one file per participant
+│   ├── _template.tsx                    # copy this to make yours
+│   └── your-name.tsx                    # the only file YOU edit
+├── index.css                            # global styles + Tailwind theme tokens
+└── main.tsx                             # React entry point
 ```
 
 ## Stack
