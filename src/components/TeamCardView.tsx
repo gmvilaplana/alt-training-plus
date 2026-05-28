@@ -55,7 +55,7 @@ export function TeamCardView({ card }: Props) {
       />
 
       {/* Eyebrow with bright teal accent (signature playbook detail) */}
-      <p className="relative z-10 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[--color-accent]">
+      <p className="relative z-10 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-(--color-accent)">
         Team · {card.theme}
       </p>
 
@@ -77,7 +77,7 @@ export function TeamCardView({ card }: Props) {
       {/* Bottom accent bar */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-gradient-to-r from-transparent via-[--color-accent] to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-90"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[3px] bg-gradient-to-r from-transparent via-(--color-accent) to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-90"
       />
     </article>
   )
