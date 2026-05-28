@@ -1,3 +1,14 @@
+import { ClaudeIcon } from '../../../components/ClaudeIcon'
+import { CopyButton } from '../../../components/CopyButton'
+
+const PROMPT_BRANCH = `Check that I'm on the main branch and that it's up to date with origin. Then create and switch to a new feature branch called \`feat/[my-name]-card\` for my work. Show me each command you run.`
+
+const PROMPT_PLAN = `I want to add my personal Team Card to this repo as a new file at \`src/cards/[my-slug].tsx\`. Switch to Plan Mode first and outline what you'll create, which theme/style you'll use, and roughly how many lines it'll be. Don't write any code yet — wait for my approval before building.`
+
+const PROMPT_COMMIT = `Show me a quick summary of what changed in \`src/cards/[my-slug].tsx\`. Then stage that file only with \`git add\` and write a clear commit message describing what the card represents and the visual style I chose. Don't stage or include any unrelated files.`
+
+const PROMPT_PR = `Push my current branch to origin, then open a Pull Request against \`main\` using \`gh pr create\`. Title: "Add team card for [my name]". Description: a short summary of the card plus a confirmation that the diff is just the new file in \`src/cards/\`. Print the PR URL when done.`
+
 export default function YourFirstPR() {
   return (
     <div className="flex flex-col gap-6">
@@ -15,6 +26,7 @@ export default function YourFirstPR() {
             desc="Create and switch to a new feature branch (e.g. feat/juan-card)"
           />
         </Code>
+        <ClaudePrompt text={PROMPT_BRANCH} />
         <Tip>
           ✨ <strong>Prompt Tip:</strong> Before running commands, you can ask
           Claude Code: &ldquo;What branch am I on and is it up to date?&rdquo;
@@ -38,6 +50,7 @@ export default function YourFirstPR() {
             <li>Once you&rsquo;re satisfied with the scope, accept the plan and let it build</li>
           </ol>
         </SubCard>
+        <ClaudePrompt text={PROMPT_PLAN} />
         <Tip>
           ✨ <strong>Prompt Tip:</strong> A good first PR is a{' '}
           <em>&ldquo;small gulp&rdquo;</em> — one focused change, not a
@@ -63,6 +76,7 @@ export default function YourFirstPR() {
             desc="Short, descriptive — ask Claude Code to generate one if stuck"
           />
         </Code>
+        <ClaudePrompt text={PROMPT_COMMIT} />
         <Tip>
           ✨ <strong>Prompt Tip:</strong> After running <C>git add ...</C>,
           ask: &ldquo;Write me a detailed commit message for the changes I
@@ -90,6 +104,7 @@ export default function YourFirstPR() {
             <li>Request a review from the facilitator</li>
           </ol>
         </SubCard>
+        <ClaudePrompt text={PROMPT_PR} />
 
         <SubCard title="PR Checklist">
           <p className="mb-2 text-(--color-ink-soft)">Before requesting review, double-check:</p>
@@ -175,6 +190,25 @@ function SubCard({ title, children }: { title: string; children: React.ReactNode
     <div className="rounded-lg border border-(--color-edge-soft) bg-(--color-canvas)/40 p-4">
       <p className="mb-2 text-sm font-semibold text-(--color-ink)">{title}</p>
       <div className="text-sm text-(--color-ink-soft)">{children}</div>
+    </div>
+  )
+}
+
+function ClaudePrompt({ text }: { text: string }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-(--color-ink)">
+        <span>Claude Code prompt</span>
+        <ClaudeIcon className="size-3.5 text-[#d97757]" title="Claude Code" />
+      </p>
+      <blockquote className="relative rounded-lg border-l-2 border-(--color-accent) bg-(--color-canvas)/60 px-4 py-3 text-(--color-ink-soft) italic">
+        <CopyButton
+          text={text}
+          className="absolute top-2 right-2"
+          label="Copy prompt"
+        />
+        <p className="pr-10 whitespace-pre-wrap">{text}</p>
+      </blockquote>
     </div>
   )
 }
