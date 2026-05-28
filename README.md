@@ -137,8 +137,9 @@ npm install
 npm run dev
 ```
 
-Open the URL Vite prints (usually `http://localhost:5173`) — you should see the
-team gallery with the existing cards.
+Open the URL Vite prints (usually `http://localhost:5173`) — you'll land on the
+**GM2 ALT Training** cover. Click **start activity** to jump to the team
+gallery and see the existing cards.
 
 ## 2. Create your branch
 
@@ -156,8 +157,8 @@ Open the project in VS Code, open Claude Code, and ask it to add your card.
 A prompt that works well:
 
 > Add a new card for me to `src/data/teamCards.ts`. My name is **[NAME]**,
-> my role is **[ROLE]**, and my skill/phrase is **[SKILL]**. Use an
-> accent color of **[HEX]** and the emoji **[EMOJI]**.
+> my role is **[ROLE]**, and my skill/phrase is **[SKILL]**. Use the theme
+> **[teal | navy | amber | peach]** and the emoji **[EMOJI]**.
 
 Or edit `src/data/teamCards.ts` directly — append a new entry to the
 `teamCards` array. The `TeamCard` type at the top of the file documents
@@ -194,9 +195,13 @@ The facilitator merges. Vercel deploys. Your card is live.
 
 ```
 src/
-├── App.tsx                  # page layout
+├── App.tsx                  # router shell (/ → Home, /gallery → Gallery)
+├── pages/
+│   ├── Home.tsx             # GM2 ALT Training cover with GSAP entrance
+│   └── Gallery.tsx          # header + team gallery + footer
 ├── components/
-│   └── TeamCardView.tsx     # how a card looks
+│   ├── HeroCard.tsx         # paper card with teal shadow used in the cover
+│   └── TeamCardView.tsx     # how a team gallery card looks
 ├── data/
 │   └── teamCards.ts         # ← the only file you need to edit
 ├── index.css                # global styles + Tailwind theme tokens
@@ -208,3 +213,6 @@ src/
 - [Vite](https://vite.dev) (dev server + build)
 - [React 19](https://react.dev) + TypeScript
 - [Tailwind CSS v4](https://tailwindcss.com)
+- [React Router 6](https://reactrouter.com) for client-side routing
+- [GSAP](https://gsap.com) + [@gsap/react](https://gsap.com/resources/React) for cover animations
+- **Bebas Neue** (Google Fonts) for the display type on the cover
