@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { CardGallery } from '../../../components/CardGallery'
 
-const PROMPT = `You are helping me add my personal Team Card to the alt-training-plus repo.
-Stack: Vite + React 19 + TypeScript + Tailwind CSS v4 + GSAP. The gallery
-auto-discovers every file in \`src/cards/*.tsx\` via
+const PROMPT = `You are helping me ship my personal Team Card to the alt-training-plus
+repo. Stack: Vite + React 19 + TypeScript + Tailwind CSS v4 + GSAP. The
+gallery auto-discovers every file in \`src/cards/*.tsx\` via
 \`import.meta.glob\`, so adding a file is enough — there is no index to update.
 
 GOAL
 Create ONE new file at \`src/cards/<my-slug>.tsx\` with a single default-
 exported React component that renders ONLY my card. Once saved, the card
-appears automatically at \`/gallery/warm-up\`.
+appears automatically at \`/gallery/warm-up\`. Use \`src/cards/_template.tsx\`
+as the starting structure — it already includes the required visual
+ingredients listed below. Extend it; don't strip it down.
 
 HARD RULES (do not violate — these prevent merge conflicts and broken builds)
 1. CREATE exactly one new file. Path must match
@@ -33,13 +35,37 @@ HARD RULES (do not violate — these prevent merge conflicts and broken builds)
    \`useEffect\` for animations.
 6. Do not import from another file in \`src/cards/\` — each card must be
    self-contained.
-7. Keep the file under ~120 lines so it's easy to review.
+7. Keep the file under ~150 lines so it's easy to review.
 8. Make sure \`npm run build\` would still pass (valid TSX, no missing
    imports, no broken JSX, all props typed).
 
-CREATIVE FREEDOM
-The rules above are about scope and build safety, NOT about look and feel.
-Inside the \`<article>\`, go wild:
+VISUAL REQUIREMENTS — non-negotiable. The card must ship as a finished
+piece, not a draft. If your output looks like plain text on a colored
+background, it's not done — iterate.
+1. Aspect ratio: the \`<article>\` MUST have a fixed aspect ratio
+   (recommended \`aspect-[16/10]\`, also fine: \`aspect-video\`,
+   \`aspect-[5/3]\`).
+2. Background: must cover 100% of the card surface — solid color,
+   gradient, photo, or layered pattern. Never leave the parent background
+   showing through.
+3. Typography hierarchy with AT LEAST 3 levels:
+   - Eyebrow line (small, uppercase, letter-spaced, ~text-xs).
+   - Display name (large, dominant — at least text-3xl, often text-4xl).
+   - Supporting line (one short sentence, smaller and slightly muted).
+4. At least ONE decorative element. Not optional. Options include:
+   - An absolutely-positioned shape (blurred orb, accent bar, geometric
+     block).
+   - A gradient overlay or pattern layer.
+   - An inline SVG (lines, dots, illustration).
+   - An \`<img>\` from \`public/\` (you can add new files to \`public/\`).
+5. Padding inside the \`<article>\`: at least \`p-7\`, ideally \`p-8\`
+   or \`p-9\` on md+.
+6. Composition: content should fill the card. Use \`flex-col
+   justify-between\` (or similar) to push eyebrow up and name/supporting
+   down, with the decoration occupying the negative space.
+
+CREATIVE FREEDOM (everything else)
+Inside the \`<article>\`, beyond the visual requirements above, go wild:
 - Any colors (theme tokens, custom hex, gradients, animated gradients).
 - Any layout (grid, absolute layers, masks, blur, mix-blend-mode).
 - Any fonts already loaded in the project (Avenir Next default, Antonio,
@@ -47,10 +73,25 @@ Inside the \`<article>\`, go wild:
 - Any GSAP animation — entrance, hover, idle, scroll-driven.
 - Inline SVG, emojis, patterns, glitch effects, lighting, depth — anything
   that makes the card feel uniquely yours.
-- Static images are OK too: drop the file into \`public/\` (e.g.
+- Static images: drop the file into \`public/\` (e.g.
   \`public/my-photo.jpg\`) and reference it as \`/my-photo.jpg\` in an
   \`<img>\`. (Adding to \`public/\` is allowed; modifying existing files
   there is not.)
+
+REFERENCE STYLES — pick one as inspiration, or remix two. Don't copy
+literally; aim for the same level of finish.
+- Editorial photo card — full-bleed photographic background, white sans-
+  serif name layered on top, eyebrow with a location/category bullet
+  (e.g. "● COLUMBUS · OH"), thin underline rule, optional caption.
+- Vintage trading card — solid muted color (mustard, deep red, navy),
+  embossed inner border, central illustration or portrait spot, name in
+  bold uppercase serif, micro-text in the footer.
+- Cyberpunk terminal — near-black bg, neon mint accents, mono font,
+  scanline pattern overlay, glitch artifacts on the name, a small
+  blinking dot or progress indicator.
+- Maximalist gradient art — vibrant multi-stop gradient + abstract shapes
+  in absolute layers, condensed display font for the name, layered color
+  blocks behind the supporting text.
 
 MY DETAILS — replace the brackets before sending
 - File name:          src/cards/[my-slug].tsx
@@ -59,13 +100,15 @@ MY DETAILS — replace the brackets before sending
 - Role:               [ROLE]
 - Skill / phrase:     [SKILL]
 - Vibe / mood:        [e.g. "dark and minimal, like a luxury brand"]
+- Reference style:    [editorial photo / vintage trading card / cyberpunk terminal / maximalist gradient — or your own]
 - Hover or idle motion (optional): [e.g. "card tilts in 3D as the cursor moves"]
 - Extra creative detail (optional): [e.g. "a slow animated gradient behind everything"]
 
 OUTPUT
 Write the file and stop. Don't touch anything else. After you finish, tell
 me the path you created and remind me to run \`npm run dev\` and open
-\`/gallery/warm-up\` to verify.`
+\`/gallery/warm-up\` to verify. If anything in the visual requirements is
+missing, iterate before declaring done.`
 
 export default function WarmUpChallenge() {
   return (
