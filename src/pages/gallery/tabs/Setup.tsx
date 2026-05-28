@@ -1,3 +1,12 @@
+import { ClaudeIcon } from '../../../components/ClaudeIcon'
+import { CopyButton } from '../../../components/CopyButton'
+
+const PROMPT_NODE = `Check whether Node.js version 20 or higher and \`npm\` are installed on my system. Run \`node --version\` and \`npm --version\` and tell me the result. If Node is missing or older than 20, give me the exact command to install it on my OS (I'm on [macOS / Windows / Linux]).`
+
+const PROMPT_GIT = `Check whether \`git\` is installed and that \`user.name\` and \`user.email\` are configured globally. If anything is missing, set my git \`user.name\` to "[Your Name]" and \`user.email\` to "[you@telus.com]" with \`git config --global\`.`
+
+const PROMPT_GH = `Check whether the GitHub CLI (\`gh\`) is installed and that I'm authenticated by running \`gh --version\` and \`gh auth status\`. If \`gh\` is missing, give me the install command for [macOS / Windows / Linux] and then walk me through \`gh auth login\` step by step.`
+
 export default function Setup() {
   return (
     <div className="flex flex-col gap-6">
@@ -24,8 +33,8 @@ npm --version`}</Code>
             Linux: <C>curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs</C>
           </p>
         </Block>
-        <Block label="(b) Claude Code prompt">
-          <Quote>
+        <Block label="(b) Claude Code prompt" withClaudeIcon>
+          <Quote copyText={PROMPT_NODE}>
             Check whether Node.js version 20 or higher and <C>npm</C> are
             installed on my system. Run <C>node --version</C> and{' '}
             <C>npm --version</C> and tell me the result. If Node is missing
@@ -44,8 +53,8 @@ git config --global user.email`}</Code>
           <Code>{`git config --global user.name "Your Name"
 git config --global user.email "you@telus.com"`}</Code>
         </Block>
-        <Block label="(b) Claude Code prompt">
-          <Quote>
+        <Block label="(b) Claude Code prompt" withClaudeIcon>
+          <Quote copyText={PROMPT_GIT}>
             Check whether <C>git</C> is installed and that <C>user.name</C>{' '}
             and <C>user.email</C> are configured globally. If anything is
             missing, set my git <C>user.name</C> to{' '}
@@ -89,8 +98,8 @@ gh auth status`}</Code>
           </p>
           <Code>{`gh auth login   # follow the prompts, HTTPS + browser auth`}</Code>
         </Block>
-        <Block label="(b) Claude Code prompt">
-          <Quote>
+        <Block label="(b) Claude Code prompt" withClaudeIcon>
+          <Quote copyText={PROMPT_GH}>
             Check whether the GitHub CLI (<C>gh</C>) is installed and that
             I&rsquo;m authenticated by running <C>gh --version</C> and{' '}
             <C>gh auth status</C>. If <C>gh</C> is missing, give me the
@@ -118,10 +127,23 @@ function Step({ n, title, children }: { n: number; title: string; children: Reac
   )
 }
 
-function Block({ label, children }: { label: string; children: React.ReactNode }) {
+function Block({
+  label,
+  withClaudeIcon = false,
+  children,
+}: {
+  label: string
+  withClaudeIcon?: boolean
+  children: React.ReactNode
+}) {
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-sm font-semibold text-(--color-ink)">{label}</p>
+      <p className="flex items-center gap-1.5 text-sm font-semibold text-(--color-ink)">
+        <span>{label}</span>
+        {withClaudeIcon ? (
+          <ClaudeIcon className="size-3.5 text-[#d97757]" title="Claude Code" />
+        ) : null}
+      </p>
       <div className="flex flex-col gap-2">{children}</div>
     </div>
   )
@@ -143,10 +165,23 @@ function C({ children }: { children: React.ReactNode }) {
   )
 }
 
-function Quote({ children }: { children: React.ReactNode }) {
+function Quote({
+  children,
+  copyText,
+}: {
+  children: React.ReactNode
+  copyText?: string
+}) {
   return (
-    <blockquote className="rounded-lg border-l-2 border-(--color-accent) bg-(--color-canvas)/60 px-4 py-3 text-(--color-ink-soft) italic">
-      {children}
+    <blockquote className="relative rounded-lg border-l-2 border-(--color-accent) bg-(--color-canvas)/60 px-4 py-3 text-(--color-ink-soft) italic">
+      {copyText ? (
+        <CopyButton
+          text={copyText}
+          className="absolute top-2 right-2"
+          label="Copy prompt"
+        />
+      ) : null}
+      <div className={copyText ? 'pr-10' : undefined}>{children}</div>
     </blockquote>
   )
 }
