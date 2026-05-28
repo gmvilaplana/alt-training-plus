@@ -15,7 +15,9 @@ export default function JulianSucattiCard() {
   const streakIdle = useRef<gsap.core.Tween | null>(null)
   const audioCtx = useRef<AudioContext | null>(null)
 
-  // synth an F1-style rev with the Web Audio API (no audio file needed)
+  // synth an F1 engine rev with the Web Audio API (no audio file needed):
+  // stacked detuned saws for the engine, a lowpass that opens as it revs,
+  // and a filtered-noise whoosh for the speed.
   const rev = () => {
     try {
       audioCtx.current ??= new (window.AudioContext ||
@@ -23,25 +25,55 @@ export default function JulianSucattiCard() {
       const ctx = audioCtx.current
       if (ctx.state === 'suspended') void ctx.resume()
       const t = ctx.currentTime
-      const gain = ctx.createGain()
-      gain.gain.setValueAtTime(0.0001, t)
-      gain.gain.exponentialRampToValueAtTime(0.22, t + 0.05)
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.65)
+      const dur = 0.95
+
+      const master = ctx.createGain()
+      master.gain.setValueAtTime(0.0001, t)
+      master.gain.exponentialRampToValueAtTime(0.3, t + 0.06)
+      master.gain.setValueAtTime(0.3, t + 0.5)
+      master.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+      master.connect(ctx.destination)
+
+      // lowpass opens as the engine climbs, then closes — the "rev brighten"
       const filter = ctx.createBiquadFilter()
       filter.type = 'lowpass'
-      filter.frequency.value = 2200
-      filter.connect(gain).connect(ctx.destination)
-      for (const detune of [0, 13]) {
+      filter.Q.value = 6
+      filter.frequency.setValueAtTime(380, t)
+      filter.frequency.exponentialRampToValueAtTime(4800, t + 0.38)
+      filter.frequency.exponentialRampToValueAtTime(1400, t + dur)
+      filter.connect(master)
+
+      // engine — detuned saw stack, launch contour then ease off
+      for (const detune of [-9, 0, 7, 19]) {
         const o = ctx.createOscillator()
         o.type = 'sawtooth'
         o.detune.value = detune
-        o.frequency.setValueAtTime(75, t)
-        o.frequency.exponentialRampToValueAtTime(280, t + 0.32)
-        o.frequency.exponentialRampToValueAtTime(190, t + 0.65)
+        o.frequency.setValueAtTime(58, t)
+        o.frequency.exponentialRampToValueAtTime(320, t + 0.26) // launch
+        o.frequency.exponentialRampToValueAtTime(240, t + 0.44) // shift
+        o.frequency.exponentialRampToValueAtTime(140, t + dur) // ease off
         o.connect(filter)
         o.start(t)
-        o.stop(t + 0.66)
+        o.stop(t + dur + 0.02)
       }
+
+      // speed whoosh — bandpassed white noise swell
+      const noise = ctx.createBufferSource()
+      const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate)
+      const data = buf.getChannelData(0)
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1
+      noise.buffer = buf
+      const bp = ctx.createBiquadFilter()
+      bp.type = 'bandpass'
+      bp.frequency.value = 1300
+      bp.Q.value = 0.7
+      const ng = ctx.createGain()
+      ng.gain.setValueAtTime(0.0001, t)
+      ng.gain.exponentialRampToValueAtTime(0.07, t + 0.22)
+      ng.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+      noise.connect(bp).connect(ng).connect(master)
+      noise.start(t)
+      noise.stop(t + dur)
     } catch {
       /* audio unavailable — ignore */
     }
@@ -143,26 +175,47 @@ export default function JulianSucattiCard() {
         <span className="f1-streak absolute top-[66%] right-0 h-px w-2/5 origin-right rounded-full bg-gradient-to-l from-[#1463ff]/90 to-transparent shadow-[0_0_10px_#1463ff]" />
       </div>
 
-      {/* content stack */}
-      <div className="relative flex h-full flex-col justify-between">
-        <span className="f1-eyebrow flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/75 md:text-xs">
-          <span aria-hidden className="size-1.5 rounded-sm bg-[#e10600]" />
+      {/* content stack — gap keeps a minimum breathing room above the name */}
+      <div className="relative flex h-full flex-col justify-between gap-5">
+        <span className="f1-eyebrow flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.32em] text-white/90 [text-shadow:0_2px_6px_#000000f2] md:text-xs">
+          <span aria-hidden className="size-1.5 rounded-sm bg-[#e10600] shadow-[0_0_6px_#e10600]" />
           Team GM2 · Driver N°01 · 2026
         </span>
 
-        <div className="flex flex-col gap-3 pb-1">
+        <div className="flex flex-col gap-3.5">
           <h2
             ref={name}
-            className="text-5xl leading-[0.82] font-normal uppercase italic tracking-tight md:text-7xl"
+            className="flex flex-col gap-1 leading-[0.82] uppercase italic tracking-tight"
             style={{ fontFamily: 'var(--font-display)' }}
           >
-            <span ref={w1} className="inline-block origin-left">Julian</span>
-            <br />
-            <span ref={w2} className="inline-block origin-left text-[#e10600]">Sucatti</span>
+            {/* top word — black weight, ~20% smaller, like "RACING" */}
+            <span
+              ref={w1}
+              className="inline-block origin-left text-5xl text-white md:text-7xl"
+              style={{ fontWeight: 900 }}
+            >
+              Julian
+            </span>
+            {/* dominant black-weight word — like "FLAG" */}
+            <span
+              ref={w2}
+              className="inline-block origin-left text-6xl text-[#e10600] md:text-8xl"
+              style={{ fontWeight: 900 }}
+            >
+              Sucatti
+            </span>
           </h2>
-          <p className="f1-support text-sm font-semibold uppercase tracking-[0.2em] text-white/70">
-            Lights out. Go.
-          </p>
+          {/* footer line with the F1 start-lights motif — like "BACKGROUND" */}
+          <div className="f1-support flex items-center gap-2.5">
+            <span aria-hidden className="flex gap-1">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <span key={i} className="size-1.5 rounded-full bg-[#e10600] shadow-[0_0_6px_#e10600]" />
+              ))}
+            </span>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white md:text-sm">
+              Lights out. Go.
+            </p>
+          </div>
         </div>
       </div>
 
