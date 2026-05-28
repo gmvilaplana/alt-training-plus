@@ -45,9 +45,6 @@ export default function MercedesPerezCard() {
         opacity: 0.9, duration: 1.8, repeat: -1, yoyo: true, ease: 'sine.inOut',
         stagger: { each: 0.22, from: 'random' },
       })
-      // idle gold shimmer sweep
-      gsap.fromTo('[data-sheen]', { xPercent: -160 },
-        { xPercent: 320, duration: 3.6, repeat: -1, repeatDelay: 2.6, ease: 'power2.inOut' })
       // smooth followers for the wand cursor
       moveTo.current = {
         x: gsap.quickTo(cursor.current, 'x', { duration: 0.18, ease: 'power3' }),
@@ -154,9 +151,6 @@ export default function MercedesPerezCard() {
       {/* the wand's star trail lives here */}
       <div ref={trail} aria-hidden className="pointer-events-none absolute inset-0" />
 
-      {/* diagonal gold sheen sweep */}
-      <span data-sheen aria-hidden className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/4 -skew-x-12 bg-gradient-to-r from-transparent via-[rgba(251,238,194,0.14)] to-transparent" />
-
       {/* content */}
       <div className="relative flex h-full flex-col items-center justify-between text-center">
         <span data-reveal style={shine} className="text-[11px] font-semibold uppercase tracking-[0.28em] opacity-80">
@@ -165,8 +159,8 @@ export default function MercedesPerezCard() {
 
         <div className="flex flex-col items-center gap-3">
           <h2 data-reveal data-name
-            style={{ fontFamily: 'Georgia, "Times New Roman", "Hoefler Text", serif', filter: 'drop-shadow(0 0 14px rgba(216,178,90,0.45))', ...shine }}
-            className="text-6xl font-bold leading-[0.88] tracking-tight md:text-8xl">
+            style={{ fontFamily: 'Georgia, "Times New Roman", "Hoefler Text", serif', filter: 'drop-shadow(0 0 10px rgba(216,178,90,0.35))', ...shine }}
+            className="text-4xl font-medium leading-[1] tracking-tight md:text-5xl">
             Mercedes
             <br />
             Pérez
