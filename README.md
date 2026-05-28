@@ -157,26 +157,29 @@ Every participant works on **their own file** — no shared array, no merge
 conflicts. To add your card:
 
 1. Copy `src/cards/_template.tsx` to `src/cards/<your-name>.tsx` (e.g.
-   `src/cards/juan.tsx`).
+   `src/cards/juan.tsx`). The template already includes the required
+   structure (aspect ratio, layered background, typography hierarchy,
+   decorative element) — just personalize it.
 2. Rename the exported component (e.g. `YourNameCard` → `JuanCard`).
-3. Edit the contents freely — colors, gradients, emojis, GSAP, whatever
-   you want. Just keep everything inside the `<article>` wrapper.
+3. Edit the contents freely — colors, gradients, GSAP, images, whatever
+   you want. Just keep everything inside the single `<article>` root.
 4. Save → your card auto-appears in the gallery (visit
    `/gallery/warm-up`).
 
-A Claude Code prompt that works well:
+Every card must satisfy these **visual requirements** (the template
+ships with them — don't strip them out):
 
-> Create a new Team Card component for me at `src/cards/<my-slug>.tsx`.
-> Use `src/cards/_template.tsx` as the base — copy it, rename the file,
-> and rename the component.
->
-> My name is **[NAME]**, my role is **[ROLE]**, and my skill/phrase is
-> **[SKILL]**. Use a theme inspired by **[teal | navy | amber | peach |
-> your own gradient]** with the emoji **[EMOJI]**. Feel free to use
-> gradients or animations — keep it inside the `<article>` wrapper.
+- Fixed aspect ratio (e.g. `aspect-[16/10]`)
+- Background that covers the entire card surface
+- Three typography levels: small uppercase eyebrow, dominant display name,
+  one supporting line
+- At least one decorative element (shape, gradient overlay, image, SVG…)
+- Padding of `p-7` or more inside the `<article>`
 
-See `/gallery/warm-up` in the live site for the full prompt template and
-tips.
+The full prompt — including four reference styles (editorial photo,
+vintage trading card, cyberpunk terminal, maximalist gradient) and a
+copy-to-clipboard button — lives at **`/gallery/warm-up`** on the live
+site. Use that as the source of truth.
 
 ## 4. Commit and push
 
