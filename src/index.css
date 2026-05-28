@@ -26,8 +26,13 @@
   --color-theme-peach: #ef8665;
   --color-theme-peach-ink: #2a0f06;
 
+  /* Hero "paper" card palette (only used on the landing page) */
+  --color-paper: #f1ede4;
+  --color-paper-ink: #0a1a18;
+
   --font-sans: "Avenir Next", Avenir, "Segoe UI", "Helvetica Neue", system-ui, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, "JetBrains Mono", monospace;
+  --font-display: "Bebas Neue", Impact, "Arial Narrow Bold", sans-serif;
 }
 
 html,
