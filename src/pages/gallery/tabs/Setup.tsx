@@ -7,6 +7,8 @@ const PROMPT_GIT = `Check whether \`git\` is installed and that \`user.name\` an
 
 const PROMPT_GH = `Check whether the GitHub CLI (\`gh\`) is installed and that I'm authenticated by running \`gh --version\` and \`gh auth status\`. If \`gh\` is missing, give me the install command for [macOS / Windows / Linux] and then walk me through \`gh auth login\` step by step.`
 
+const PROMPT_CLONE = `Clone the repo \`https://github.com/gmvilaplana/alt-training-plus.git\` into my current directory, \`cd\` into it, run \`npm install\`, and then start the dev server with \`npm run dev\`. Once it's running, tell me the local URL it's serving on so I can open it in the browser.`
+
 export default function Setup() {
   return (
     <div className="flex flex-col gap-6">
@@ -106,6 +108,38 @@ gh auth status`}</Code>
             install command for{' '}
             <strong>[macOS / Windows / Linux]</strong> and then walk me
             through <C>gh auth login</C> step by step.
+          </Quote>
+        </Block>
+      </Step>
+
+      <Step n={5} title="Clone and run the site locally">
+        <p className="text-(--color-ink-soft) leading-relaxed">
+          Once you have access to the repo, clone it to your machine,
+          install dependencies, and start the dev server. After this step
+          you&rsquo;ll be able to follow the <strong>Your First PR</strong>{' '}
+          tab to make your change.
+        </p>
+
+        <Block label="(a) Terminal">
+          <Code>{`git clone https://github.com/gmvilaplana/alt-training-plus.git
+cd alt-training-plus
+npm install
+npm run dev`}</Code>
+          <p className="text-sm text-(--color-ink-muted)">
+            The dev server will print a URL like{' '}
+            <C>http://localhost:5173</C> — open it in your browser to see
+            the site running locally.
+          </p>
+        </Block>
+
+        <Block label="(b) Claude Code prompt" withClaudeIcon>
+          <Quote copyText={PROMPT_CLONE}>
+            Clone the repo{' '}
+            <C>https://github.com/gmvilaplana/alt-training-plus.git</C>{' '}
+            into my current directory, <C>cd</C> into it, run{' '}
+            <C>npm install</C>, and then start the dev server with{' '}
+            <C>npm run dev</C>. Once it&rsquo;s running, tell me the local
+            URL it&rsquo;s serving on so I can open it in the browser.
           </Quote>
         </Block>
       </Step>

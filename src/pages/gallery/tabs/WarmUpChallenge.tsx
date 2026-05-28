@@ -1,26 +1,71 @@
 import { useState } from 'react'
 import { CardGallery } from '../../../components/CardGallery'
 
-const PROMPT = `I'm working on the alt-training-plus repo (Vite + React + Tailwind v4 + GSAP).
+const PROMPT = `You are helping me add my personal Team Card to the alt-training-plus repo.
+Stack: Vite + React 19 + TypeScript + Tailwind CSS v4 + GSAP. The gallery
+auto-discovers every file in \`src/cards/*.tsx\` via
+\`import.meta.glob\`, so adding a file is enough — there is no index to update.
 
-Create a new Team Card component for me at \`src/cards/<my-slug>.tsx\`. Use
-\`src/cards/_template.tsx\` as the base — copy it, rename the file, and
-rename the component.
+GOAL
+Create ONE new file at \`src/cards/<my-slug>.tsx\` with a single default-
+exported React component that renders ONLY my card. Once saved, the card
+appears automatically at \`/gallery/warm-up\`.
 
-Here's what I want:
+HARD RULES (do not violate — these prevent merge conflicts and broken builds)
+1. CREATE exactly one new file. Path must match
+   \`src/cards/<slug>.tsx\` where <slug> is kebab-case (lowercase letters,
+   digits, hyphens). Example: \`juan-vilaplana.tsx\`.
+2. DO NOT modify any other file. Specifically: do not touch
+   \`src/cards/_template.tsx\`, \`src/components/CardGallery.tsx\`,
+   \`src/pages/**\`, \`src/App.tsx\`, \`src/index.css\`, \`README.md\`,
+   \`package.json\`, or \`index.html\`.
+3. The component must \`export default\` a function whose JSX returns a
+   single root \`<article>\` element with all card content inside.
+4. Use Tailwind utilities for layout. For colors, prefer the theme tokens
+   already in the project:
+     bg-(--color-theme-teal)    text-(--color-theme-teal-ink)
+     bg-(--color-theme-navy)    text-(--color-theme-navy-ink)
+     bg-(--color-theme-amber)   text-(--color-theme-amber-ink)
+     bg-(--color-theme-peach)   text-(--color-theme-peach-ink)
+   Custom hex values are OK if a token doesn't fit, but stay restrained.
+5. If you use GSAP, import \`{ gsap }\` from \`gsap\` and the \`useGSAP\`
+   hook from \`@gsap/react\` (both already installed). Do NOT use
+   \`useEffect\` for animations.
+6. Do not import from another file in \`src/cards/\` — each card must be
+   self-contained.
+7. Keep the file under ~120 lines so it's easy to review.
+8. Make sure \`npm run build\` would still pass (valid TSX, no missing
+   imports, no broken JSX, all props typed).
 
-My name: [NAME]
-My role: [ROLE]
-Vibe / mood: [e.g. "dark and minimal, like a luxury brand"]
-Color palette: [e.g. "near-black background, electric lime accent" — or
-  one of the theme tokens: teal / navy / amber / peach]
-Typography feeling: [e.g. "oversized serif name, tiny mono for the details"]
-On hover: [e.g. "the card tilts in 3D as my cursor moves across it"]
-One extra detail: [e.g. "a slow animated gradient behind everything"]
+CREATIVE FREEDOM
+The rules above are about scope and build safety, NOT about look and feel.
+Inside the \`<article>\`, go wild:
+- Any colors (theme tokens, custom hex, gradients, animated gradients).
+- Any layout (grid, absolute layers, masks, blur, mix-blend-mode).
+- Any fonts already loaded in the project (Avenir Next default, Antonio,
+  Bebas Neue) or any system font.
+- Any GSAP animation — entrance, hover, idle, scroll-driven.
+- Inline SVG, emojis, patterns, glitch effects, lighting, depth — anything
+  that makes the card feel uniquely yours.
+- Static images are OK too: drop the file into \`public/\` (e.g.
+  \`public/my-photo.jpg\`) and reference it as \`/my-photo.jpg\` in an
+  \`<img>\`. (Adding to \`public/\` is allowed; modifying existing files
+  there is not.)
 
-Use Tailwind for layout and styling. GSAP is already installed if you want
-animations. Make it feel like a real portfolio piece, not a template. Keep
-all content inside the \`<article>\` wrapper.`
+MY DETAILS — replace the brackets before sending
+- File name:          src/cards/[my-slug].tsx
+- Component name:     [MyNameCard]     (PascalCase, ends with "Card")
+- Display name:       [NAME]
+- Role:               [ROLE]
+- Skill / phrase:     [SKILL]
+- Vibe / mood:        [e.g. "dark and minimal, like a luxury brand"]
+- Hover or idle motion (optional): [e.g. "card tilts in 3D as the cursor moves"]
+- Extra creative detail (optional): [e.g. "a slow animated gradient behind everything"]
+
+OUTPUT
+Write the file and stop. Don't touch anything else. After you finish, tell
+me the path you created and remind me to run \`npm run dev\` and open
+\`/gallery/warm-up\` to verify.`
 
 export default function WarmUpChallenge() {
   return (
