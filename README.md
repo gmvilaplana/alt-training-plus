@@ -9,126 +9,152 @@ The goal isn't the card. The goal is the **flow**: clone → branch → change �
 
 ## What you'll need
 
-Before you start, make sure each of the items below is installed and working.
-For every one we list **(a) the terminal command** if you're comfortable with
-the CLI, and **(b) a prompt you can paste into Claude Code** if you'd rather
-not touch the terminal.
+Work through these **seven steps in order** before the workshop starts. Each
+one gives you two options: **(a)** a terminal command if you're comfortable
+with the CLI, or **(b)** a prompt you can paste straight into the **Claude Code
+app** and let it do the work.
 
-> 💡 If you don't have Claude Code yet, do **section 3** first — you'll need
-> it for the (b) prompts below.
+> 💡 You already have the **Claude Code app** installed, so the (b) prompts work
+> from step 1 — **step 6** just adds Claude Code to VS Code as an extension.
+> Everything here targets macOS; not on a Mac? Ping the facilitator on Slack.
 
 ---
 
-### 1. Node.js 20+ and `npm`
+### 1. Install Homebrew
+
+Homebrew is the package manager we'll use to install everything else.
 
 **(a) Terminal**
 
 ```bash
-node --version    # should print v20.x.x or higher
-npm --version
+brew --version   # prints a version if already installed
 ```
 
-If you don't have it or the version is too old:
+If it's missing, install it (then restart Terminal):
 
-- **macOS** (with Homebrew): `brew install node@20`
-- **Windows**: download the LTS installer from <https://nodejs.org>
-- **Linux** (Debian/Ubuntu): `curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs`
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+On Apple Silicon, run the two **Next steps** PATH commands the installer prints
+at the end.
 
 **(b) Claude Code prompt**
 
-> Check whether Node.js version 20 or higher and `npm` are installed on my
-> system. Run `node --version` and `npm --version` and tell me the result.
-> If Node is missing or older than 20, give me the exact command to install
-> it on my OS (I'm on **[macOS / Windows / Linux]**).
+> Check whether Homebrew is installed on my Mac by running `brew --version`. If
+> it's missing, install it with the official installer. On Apple Silicon, also
+> run the two "Next steps" PATH commands it prints. When you're done, confirm
+> `brew --version` works.
 
 ---
 
-### 2. `git` configured with your name and email
+### 2. Install the GitHub CLI (`gh`)
+
+`gh` lets you log in to GitHub and open pull requests without leaving the terminal.
 
 **(a) Terminal**
 
 ```bash
-git --version                         # confirms git is installed
-git config --global user.name         # should print your name
-git config --global user.email        # should print your email
+brew install gh
+gh --version
 ```
 
-If either is empty, set them once:
+**(b) Claude Code prompt**
+
+> Install the GitHub CLI on my Mac with `brew install gh`, then confirm it
+> worked by running `gh --version`.
+
+---
+
+### 3. Log in to GitHub
+
+Authenticate `gh` with your account. Pick **GitHub.com → HTTPS → Login with a
+web browser** and follow the prompts.
+
+**(a) Terminal**
 
 ```bash
+gh auth login
+gh auth status   # should show you as logged in
+```
+
+You'll also need access to `gmvilaplana/alt-training-plus` — ping the
+facilitator on Slack if you can't see the repo.
+
+**(b) Claude Code prompt**
+
+> Log me in to GitHub from the terminal with `gh auth login`. Walk me through
+> it choosing GitHub.com, HTTPS, and "Login with a web browser". When it's
+> finished, run `gh auth status` to confirm I'm authenticated.
+
+---
+
+### 4. Check your `npm` and `git` versions
+
+**(a) Terminal**
+
+```bash
+node --version   # want v20.x.x or higher
+npm --version
+git --version
+```
+
+Missing or too old? Install with Homebrew, then set your identity:
+
+```bash
+brew install node   # Node.js 20+ and npm
+brew install git
 git config --global user.name "Your Name"
 git config --global user.email "you@telus.com"
 ```
 
 **(b) Claude Code prompt**
 
-> Check whether `git` is installed and that `user.name` and `user.email` are
-> configured globally. If anything is missing, set my git `user.name` to
-> **"[Your Name]"** and `user.email` to **"[you@telus.com]"** with
-> `git config --global`.
+> Check my Node.js, `npm`, and `git` versions. I want Node 20 or higher. If
+> Node/npm or git are missing (or Node is too old), install them with Homebrew.
+> Then set my git identity with `git config --global user.name` and
+> `user.email`.
 
 ---
 
-### 3. VS Code with the **Claude Code** extension
+### 5. Install VS Code
 
-1. Install **VS Code** from <https://code.visualstudio.com> if you don't have it.
-2. Open VS Code → **Extensions** sidebar (`Cmd`/`Ctrl` + `Shift` + `X`) →
-   search **"Claude Code"** → click **Install**.
-3. Open the Claude Code panel (sidebar icon or `Cmd`/`Ctrl` + `Shift` + `P`
-   → **"Claude Code: Open"**) and sign in when prompted.
-
-**(a) Terminal check (optional)**
-
-```bash
-code --list-extensions | grep -i claude    # should list the Claude Code extension
-```
-
-**(b) Claude Code prompt** *(once it's installed)*
-
-> Confirm Claude Code is connected and authenticated in this workspace. If
-> there's anything missing, walk me through fixing it.
-
----
-
-### 4. GitHub access to this repo
-
-You need:
-
-- A GitHub account
-- Access to `gmvilaplana/alt-training-plus` — ping the facilitator on Slack if you don't see the repo
-- Optional but recommended: the **GitHub CLI** (`gh`) so you can open PRs without leaving the terminal
+VS Code is the editor we'll run Claude Code inside.
 
 **(a) Terminal**
 
 ```bash
-gh --version       # confirms gh is installed
-gh auth status     # confirms you're logged in
+brew install --cask visual-studio-code
+code --version
 ```
 
-If `gh` is missing:
-
-- **macOS**: `brew install gh`
-- **Windows**: `winget install --id GitHub.cli`
-- **Linux**: see <https://github.com/cli/cli/blob/trunk/docs/install_linux.md>
-
-Then log in:
-
-```bash
-gh auth login      # follow the prompts, pick HTTPS + browser auth
-```
+Prefer clicking? Download it from <https://code.visualstudio.com> instead.
 
 **(b) Claude Code prompt**
 
-> Check whether the GitHub CLI (`gh`) is installed and that I'm authenticated
-> by running `gh --version` and `gh auth status`. If `gh` is missing, give
-> me the install command for **[macOS / Windows / Linux]** and then walk me
-> through `gh auth login` step by step.
+> Install Visual Studio Code on my Mac with `brew install --cask
+> visual-studio-code`, then confirm it worked by running `code --version`.
 
 ---
 
-> ✅ Once all four are green, jump to **section 1. Clone and run the site locally** below.
+### 6. Add Claude Code to VS Code
 
-## 1. Clone and run the site locally
+You already have the Claude Code app — this step connects it to VS Code as an
+extension so you can run it right inside the editor.
+
+1. Open VS Code → **Extensions** sidebar (`Cmd` + `Shift` + `X`).
+2. Search **"Claude Code"** → click **Install**.
+3. Open the Claude Code panel and **sign in** when prompted.
+
+```bash
+code --list-extensions | grep -i claude    # optional check
+```
+
+---
+
+### 7. Clone and run the site locally
+
+**(a) Terminal**
 
 ```bash
 git clone https://github.com/gmvilaplana/alt-training-plus.git
@@ -141,7 +167,16 @@ Open the URL Vite prints (usually `http://localhost:5173`) — you'll land on th
 **GM2 ALT Training** cover. Click **start activity** to jump to the team
 gallery and see the existing cards.
 
-## 2. Create your branch
+**(b) Claude Code prompt**
+
+> Clone the repo `https://github.com/gmvilaplana/alt-training-plus.git` into my
+> current directory, `cd` into it, run `npm install`, and then start the dev
+> server with `npm run dev`. Once it's running, tell me the local URL it's
+> serving on so I can open it in the browser.
+
+---
+
+## 1. Create your branch
 
 Always start from an up-to-date `main`:
 
@@ -151,7 +186,7 @@ git pull
 git checkout -b feat/your-name-card
 ```
 
-## 3. Add your card
+## 2. Add your card
 
 Every participant works on **their own file** — no shared array, no merge
 conflicts. To add your card:
@@ -181,7 +216,7 @@ vintage trading card, cyberpunk terminal, maximalist gradient) and a
 copy-to-clipboard button — lives at **`/gallery/warm-up`** on the live
 site. Use that as the source of truth.
 
-## 4. Commit and push
+## 3. Commit and push
 
 ```bash
 git status                # see what changed
@@ -191,7 +226,7 @@ git commit -m "Add team card for [your name]"
 git push -u origin feat/your-name-card
 ```
 
-## 5. Open a pull request
+## 4. Open a pull request
 
 `gh pr create` works if you have the GitHub CLI:
 
