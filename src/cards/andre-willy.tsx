@@ -3,10 +3,13 @@
 // drift continuously and swell + glow on hover. Pure CSS (no hooks, no GSAP),
 // all styles scoped under `.andre-card` so nothing leaks into the gallery.
 
-// One wave, two full periods wide so two copies tile seamlessly for the
+// One wave, spanning the full 1440 width so two copies tile seamlessly for the
 // infinite horizontal scroll. `currentColor` lets each layer set its own fill.
+// Calm-sea shape: 4 wide, low swells (amplitude ~12 around the y=72 midline).
+// The even segment count makes the start/end slope match, so the loop is
+// seamless — keep both endpoints at y=72 if you reshape it.
 const WAVE =
-  'M0,60 Q120,20 240,60 T480,60 T720,60 T960,60 T1200,60 T1440,60 L1440,120 L0,120 Z'
+  'M0,72 Q180,60 360,72 T720,72 T1080,72 T1440,72 L1440,120 L0,120 Z'
 
 const STYLES = `
 .andre-waves { transition: transform 0.6s ease; }
@@ -24,13 +27,13 @@ const STYLES = `
 .andre-wave svg path { fill: currentColor; }
 
 /* back → front: darker/slower/higher to brighter/faster/lower for depth */
-.andre-wave-1 { bottom: 16%; color: #0f3d4a; opacity: 0.5; animation: andre-drift 15s linear infinite; }
-.andre-wave-2 { bottom: 7%;  color: #0e7e6f; opacity: 0.7; animation: andre-drift 11s linear infinite reverse; }
-.andre-wave-3 { bottom: 0;   color: #12b3a1; opacity: 0.95; animation: andre-drift 8s linear infinite; }
+.andre-wave-1 { bottom: 16%; color: #0f3d4a; opacity: 0.5; animation: andre-drift 30s linear infinite; }
+.andre-wave-2 { bottom: 7%;  color: #0e7e6f; opacity: 0.7; animation: andre-drift 23s linear infinite reverse; }
+.andre-wave-3 { bottom: 0;   color: #12b3a1; opacity: 0.95; animation: andre-drift 17s linear infinite; }
 
-.andre-card:hover .andre-wave-1 { animation-duration: 10s; }
-.andre-card:hover .andre-wave-2 { animation-duration: 7s; }
-.andre-card:hover .andre-wave-3 { animation-duration: 5s; }
+.andre-card:hover .andre-wave-1 { animation-duration: 22s; }
+.andre-card:hover .andre-wave-2 { animation-duration: 17s; }
+.andre-card:hover .andre-wave-3 { animation-duration: 12s; }
 
 .andre-glow { opacity: 0.35; transition: opacity 0.6s ease; }
 .andre-card:hover .andre-glow { opacity: 0.85; }
