@@ -19,10 +19,10 @@ type HeroCardSpec = {
 
 const cards: HeroCardSpec[] = [
   {
-    text: 'GM2',
+    text: 'LATAM',
     rotation: -4,
-    sizeClass: 'text-6xl md:text-8xl',
-    paddingClass: 'px-10 py-3 md:px-14 md:py-4',
+    sizeClass: 'text-7xl md:text-9xl',
+    paddingClass: 'px-14 py-4 md:px-20 md:py-5',
     hoverBg: '#ef8665', // peach
     hoverInk: '#2a0f06',
     drift: { y: 10, r: 0.9, duration: 2.0, delay: 0 },

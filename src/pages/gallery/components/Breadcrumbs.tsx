@@ -10,7 +10,7 @@ export function Breadcrumbs() {
           </Link>
         </li>
         <li aria-hidden>›</li>
-        <li className="text-(--color-ink)">GM2 ALT Training</li>
+        <li className="text-(--color-ink)">Latam ALT Training</li>
       </ol>
     </nav>
   )

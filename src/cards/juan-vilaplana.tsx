@@ -67,7 +67,7 @@ export default function JuanVilaplanaCard() {
         aria-hidden
         className="absolute right-7 bottom-5 font-mono text-[10px] tracking-[0.3em] opacity-60"
       >
-        GM2 · ALT
+        Latam · ALT
       </span>
     </article>
   )

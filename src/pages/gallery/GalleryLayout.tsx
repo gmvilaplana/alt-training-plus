@@ -12,7 +12,7 @@ export default function GalleryLayout() {
       <header className="mt-10 flex flex-col gap-5">
         <Breadcrumbs />
         <h1 className="text-4xl font-semibold tracking-tight text-(--color-ink) md:text-5xl">
-          GM2 ALT Training Workshop
+          Latam ALT Training Workshop
         </h1>
         <div>
           <AuthorChip name="Juan I. Vilaplana" avatar="/juan.png" />
