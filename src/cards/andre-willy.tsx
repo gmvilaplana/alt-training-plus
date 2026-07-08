@@ -18,6 +18,7 @@ const WAVE_CREST =
   'M484.031 100.558C470.426 77.6448 471.858 38.2629 530.573 28.9545C389.865 -71.5738 280.995 115.526 0 196.804H993.941C891.876 161.287 804.288 106.414 621.213 135.581C519.81 151.737 497.635 123.471 484.031 100.558Z'
 
 const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Yuyu+Short&display=swap');
 .andre-wave {
   position: absolute;
   left: 0;
@@ -112,12 +113,14 @@ export default function AndreWillyCard() {
 
         <div className="flex flex-col gap-1.5">
           <h2
-            className="font-display text-5xl leading-[0.9] font-semibold tracking-tight text-(--color-ink) md:text-6xl"
-            style={{ textShadow: '0 0 22px rgba(0, 229, 204, 0.45)' }}
+            className="text-6xl leading-[0.95] text-(--color-ink) md:text-7xl"
+            style={{ fontFamily: "'Yuyu Short', cursive", textShadow: '0 0 22px rgba(0, 229, 204, 0.45)' }}
           >
             André Willy
           </h2>
-          <p className="text-sm leading-relaxed opacity-90">Average surfer 🌊</p>
+          <p className="text-sm font-medium leading-relaxed text-(--color-ink)">
+            Average surfer 🌊
+          </p>
         </div>
       </div>
     </article>
