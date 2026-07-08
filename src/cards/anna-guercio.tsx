@@ -165,7 +165,7 @@ export default function AnnaGuercioCard() {
         <div data-signblock className="flex flex-col items-start text-left">
           <h2
             data-sign
-            className="text-3xl font-bold whitespace-nowrap capitalize leading-none text-[#e8477f] md:text-4xl"
+            className="text-5xl font-bold whitespace-nowrap capitalize leading-none text-[#e8477f] md:text-6xl"
             style={{ fontFamily: "'Snell Roundhand', 'Brush Script MT', 'Segoe Script', cursive" }}
           >
             Anna Guercio
